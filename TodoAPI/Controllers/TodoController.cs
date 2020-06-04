@@ -21,7 +21,7 @@ namespace TodoAPI.Controllers {
         [HttpGet]
         public IEnumerable<string> Get() {
 
-            var item = _context.TodoItems.Find(1);
+            var item = _context;
 
 
             return new string[] { "value1", "value2" };

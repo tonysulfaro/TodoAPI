@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TodoAPI.Models;
 
 namespace TodoAPI.Models {
-    public class TodoContext: Microsoft.EntityFrameworkCore.DbContext {
+    public class TodoContext: DbContext {
 
         public TodoContext(DbContextOptions<TodoContext> options) : base(options) {
 
