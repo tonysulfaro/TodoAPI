@@ -26,7 +26,7 @@ namespace TodoAPI {
             services.AddControllers();
 
             // database
-            services.AddDbContext<TodoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TodoDB")));
+            services.AddDbContext<TodoContext>();
 
         }
 

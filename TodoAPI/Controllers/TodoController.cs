@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoAPI.Models;
@@ -19,12 +19,12 @@ namespace TodoAPI.Controllers {
 
         // GET: api/<TodoController>
         [HttpGet]
-        public IEnumerable<string> Get() {
+        public List<TodoItem> Get() {
 
-            var item = _context;
+            var item = _context.Todos.ToList();
 
 
-            return new string[] { "value1", "value2" };
+            return item;
         }
 
         // GET api/<TodoController>/5

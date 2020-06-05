@@ -8,11 +8,12 @@ using TodoAPI.Models;
 namespace TodoAPI.Models {
     public class TodoContext: DbContext {
 
-        public TodoContext(DbContextOptions<TodoContext> options) : base(options) {
+        public DbSet<TodoItem> Todos { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            optionsBuilder.UseSqlServer(
+                @"Server=localhost;Initial Catalog=test;MultipleActiveResultSets=true;User ID=admin;Password=admin");
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
-
     }
-}
+} 
