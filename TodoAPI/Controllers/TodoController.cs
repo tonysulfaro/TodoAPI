@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,9 +12,9 @@ namespace TodoAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class TodoController : ControllerBase {
-        private readonly TodoContext _context;
+        private readonly TodoDBContext _context;
 
-        public TodoController(TodoContext context) {
+        public TodoController(TodoDBContext context) {
             _context = context;
         }
 
@@ -21,6 +22,7 @@ namespace TodoAPI.Controllers {
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems() {
             return await _context.Todos.ToListAsync();
+
         }
 
         // GET api/<TodoController>/5
