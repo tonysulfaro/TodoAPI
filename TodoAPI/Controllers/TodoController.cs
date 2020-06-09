@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,16 +14,17 @@ namespace TodoAPI.Controllers {
     [ApiController]
     public class TodoController : ControllerBase {
         private readonly TodoDBContext _context;
+        private readonly JWTSettings _jwtsettings;
 
-        public TodoController(TodoDBContext context) {
+        public TodoController(TodoDBContext context, IOptions<JWTSettings> jwtsettings) {
             _context = context;
+            _jwtsettings = jwtsettings.Value;
         }
 
         // GET: api/<TodoController>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems() {
             return await _context.Todos.ToListAsync();
-
         }
 
         // GET api/<TodoController>/5

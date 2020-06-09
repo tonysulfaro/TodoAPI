@@ -38,6 +38,10 @@ namespace TodoAPI {
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo List API", Version = "v1" });
             });
+
+            // JWT
+            var jstSection = Configuration.GetSection("JWTSettings");
+            services.Configure<JWTSettings>(jstSection);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
