@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TodoAPI.Models;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace TodoAPI {
     public class Startup {
@@ -36,12 +38,17 @@ namespace TodoAPI {
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo List API", Version = "v1" });
-            });
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Version = "v1",
+                    Title = "ToDo API",
+                    Description = "A simple example ASP.NET Core Web API"
+                });
 
-            // JWT
-            var jstSection = Configuration.GetSection("JWTSettings");
-            services.Configure<JWTSettings>(jstSection);
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

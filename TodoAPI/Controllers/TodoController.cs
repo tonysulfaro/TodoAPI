@@ -14,20 +14,42 @@ namespace TodoAPI.Controllers {
     [ApiController]
     public class TodoController : ControllerBase {
         private readonly TodoDBContext _context;
-        private readonly JWTSettings _jwtsettings;
 
-        public TodoController(TodoDBContext context, IOptions<JWTSettings> jwtsettings) {
+        public TodoController(TodoDBContext context) {
             _context = context;
-            _jwtsettings = jwtsettings.Value;
         }
 
         // GET: api/<TodoController>
+        /// <summary>
+        /// Gets all Todo Items.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /Todo/
+        ///
+        /// </remarks>
+        /// <returns>A list of Todo Items.</returns>
+        /// <response code="200">Returns the items</response>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TodoItem>>> GetTodoItems() {
             return await _context.Todos.ToListAsync();
         }
 
         // GET api/<TodoController>/5
+        /// <summary>
+        /// Gets a single Todo Item.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /Todo/{id}
+        ///
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns>A newly created TodoItem</returns>
+        /// <response code="200">Returns the item</response>
+        /// <response code="404">If the item is not found</response>  
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> GetTodoItem(int id) {
             var todoItem = await _context.Todos.FindAsync(id);
@@ -40,6 +62,24 @@ namespace TodoAPI.Controllers {
         }
 
         // POST api/<TodoController>
+        /// <summary>
+        /// Creates a TodoItem.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Todo
+        ///     {
+        ///        "id": 1,
+        ///        "name": "Item1",
+        ///        "isComplete": true
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="item"></param>
+        /// <returns>A newly created TodoItem</returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>  
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem item) {
             _context.Todos.Add(item);
@@ -49,6 +89,25 @@ namespace TodoAPI.Controllers {
         }
 
         // PUT api/<TodoController>/5
+        /// <summary>
+        /// Updates a specific TodoItem.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT /Todo
+        ///     {
+        ///        "id": 1,
+        ///        "name": "Item1",
+        ///        "isComplete": true
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns>None if successful</returns>
+        /// <response code="204">Todo Item was updated</response>
+        /// <response code="400">If the item is null</response> 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTodoItem(int id, TodoItem item) {
             if (id != item.Id) {
@@ -62,6 +121,19 @@ namespace TodoAPI.Controllers {
         }
 
         // DELETE api/<TodoController>/5
+        /// <summary>
+        /// Deletes a specific TodoItem.
+        /// </summary>
+        /// /// <remarks>
+        /// Sample request:
+        ///
+        ///     DELETE /Todo/{id}
+        ///
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns>A newly created TodoItem</returns>
+        /// <response code="204">Todo Item was deleted</response>
+        /// <response code="404">If the item is not found</response> 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoItem(int id) {
             var todoItem = await _context.Todos.FindAsync(id);
