@@ -31,21 +31,23 @@ namespace TodoAPI.Controllers {
             var fileName = System.IO.Path.GetFileName(file.FileName);
 
             string folderPath = Directory.GetCurrentDirectory()+"\\Files";
+            Guid g = Guid.NewGuid();
 
 
             // If file with same name exists delete it
-            if (System.IO.File.Exists(folderPath+"\\"+fileName)) {
-                System.IO.File.Delete(folderPath+ "\\" + fileName);
-            }
+            //if (System.IO.File.Exists(folderPath+"\\"+fileName)) {
+            //    System.IO.File.Delete(folderPath+ "\\" + fileName);
+            //}
 
             // Create new local file and copy contents of uploaded file
-            using (var localFile = System.IO.File.OpenWrite(folderPath + "\\" + fileName))
+            using (var localFile = System.IO.File.OpenWrite(folderPath + "\\" + g))
             using (var uploadedFile = file.OpenReadStream()) {
                 uploadedFile.CopyTo(localFile);
             }
 
-            var db_file = new Document() {RelativePath=fileName, OriginalName =fileName, MimeType="jpg"};
+            var db_file = new Document{RelativePath=folderPath, GuidName =g.ToString(),OriginalName =fileName, MimeType=file.ContentType};
             _context.Document.Add(db_file);
+            _context.SaveChanges();
 
             return "File successfully uploaded";
         }
