@@ -10,6 +10,8 @@ namespace TodoAPI.Models {
 
         public DbSet<TodoItem> Todos { get; set; }
 
+        public DbSet<Document> Document { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseSqlServer(
                 @"Server=localhost;Initial Catalog=test;MultipleActiveResultSets=true;User ID=admin;Password=admin");
